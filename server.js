@@ -92,7 +92,7 @@ router.get('/', function(req, res){
 
 app.use('/api', router);
 
-var staticPath = path.resolve(__dirname, '/public');
+var staticPath = path.resolve(__dirname, 'public');
 app.use(express.static(staticPath));
 
 app.listen(port);
