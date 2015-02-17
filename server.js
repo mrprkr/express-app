@@ -2,15 +2,15 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var path = require('path');
 
 mongoose.connect('mongodb://test:tester@novus.modulusmongo.net:27017/ivadi9Ry');
 var Bear = require('./app/models/bear');
 
-
-app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-var port = process.env.PORT || 3000; 
+var port = process.env.PORT || 5000; 
 var router = express.Router();
 
 router.use(function(req, res, next) {
@@ -22,18 +22,22 @@ router.route('/bears')
 	.post(function(req, res){
 		var bear = new Bear();
 		bear.name = req.body.name;
+        bear.color = req.body.color;
 		bear.save(function(err) {
             if (err)
                 res.send(err);
             res.json({ message: 'Bear created!' });
         	})
+        console.log('Post request successful');
 		})
+
 	.get(function(req, res){
 		Bear.find(function(err, bears) {
             if (err)
                 res.send(err);
             res.json(bears);
         });
+        console.log('Get request successful');
     });
 
 
@@ -44,6 +48,7 @@ router.route('/bears/:bear_id')
                 res.send(err);
             res.json(bear);
         });
+        console.log('Get using ID successful');
     })
 
 .put(function(req, res) {
@@ -54,7 +59,7 @@ router.route('/bears/:bear_id')
                 res.send(err);
 
             bear.name = req.body.name;  // update the bears info
-
+            bear.color = req.body.color; 
             // save the bear
             bear.save(function(err) {
                 if (err)
@@ -64,6 +69,7 @@ router.route('/bears/:bear_id')
             });
 
         });
+        console.log('Put request successful');
     })
 
 .delete(function(req, res) {
@@ -75,18 +81,19 @@ router.route('/bears/:bear_id')
 
             res.json({ message: 'Successfully deleted' });
         });
+        console.log('Delete request successful');
     });
 
+
 router.get('/', function(req, res){
-	res.json({ message: 'hooray! welcome to our api!' });
+	res.json({ message: 'Welcome to our api!' });
 });
 
 
 app.use('/api', router);
 
-app.get('/', function(req, res){
-	res.send('welcome to the api server');
-});
+var staticPath = path.resolve(__dirname, './public/');
+app.use(express.static(staticPath));
 
 app.listen(port);
 console.log('Magic happens on port ' + port);
