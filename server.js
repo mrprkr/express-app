@@ -10,7 +10,7 @@ var Bear = require('./app/models/bear');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-var port = process.env.PORT || 5000; 
+var port = process.env.PORT || 8080; 
 var router = express.Router();
 
 router.use(function(req, res, next) {
@@ -23,6 +23,8 @@ router.route('/bears')
 		var bear = new Bear();
 		bear.name = req.body.name;
         bear.color = req.body.color;
+        bear.link = req.body.link;
+
 		bear.save(function(err) {
             if (err)
                 res.send(err);
@@ -59,7 +61,8 @@ router.route('/bears/:bear_id')
                 res.send(err);
 
             bear.name = req.body.name;  // update the bears info
-            bear.color = req.body.color; 
+            bear.color = req.body.color;
+            bear.link = req.body.link;
             // save the bear
             bear.save(function(err) {
                 if (err)

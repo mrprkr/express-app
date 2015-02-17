@@ -1,0 +1,33 @@
+<h1> Welcome to express.app</h1>
+<p> POC demo of the MEAN stack</p>
+<br/><br/>
+
+<p>API Tools</p>
+<input type="text" ng-model="bearID" placeholder="ID">
+<input type="text" ng-model="bearName" placeholder="name">
+<input type="text" ng-model="bearColor" placeholder="color">
+<input type="text" ng-model="bearLink" placeholder="Link">
+<br/>
+<button ng-Click="addBear()">Add</button>
+<button ng-Click="updateBear(bearID)">Update</button>
+<button ng-Click="deleteBear(bearID)">Delete</button>
+<br/>
+
+
+<br/>
+<br/>
+<br/>
+<h4>Bears:</h4><br/>
+<ul>
+<li ng-repeat="bear in bears">
+	name: {{bear.name}}<br/>
+	color: {{bear.color}}<br/>
+	link: {{bear.link}}<br/>
+	_id: {{bear._id}}	<a href="" ng-Click="editThis(this)">edit</a>
+	<br/><br/>
+	</li>
+</ul>
+
+
+
+
